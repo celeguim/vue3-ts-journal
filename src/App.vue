@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import TheHeader from "@/components/TheHeader.vue";
+import TheHeader from "./components/TheHeader.vue";
 import EntryEditor from "./components/EntryEditor.vue";
-import EntryCard from "@/components/EntryCard.vue";
+import EntryCard from "./components/EntryCard.vue";
 import { reactive } from "vue";
+
 import type User from "./types/User";
+import type Emoji from "./types/Emoji";
+import type Entry from "./types/Entry";
+
+const entries: Entry[] = reactive([]);
 
 const user: User = reactive({
   id: 1,
@@ -12,14 +17,18 @@ const user: User = reactive({
 });
 
 console.log(user);
+
+const handleCreateEvent = (entry: Entry) => {
+  entries.unshift(entry);
+};
 </script>
 
 <template>
   <main class="container m-auto p-10">
     <TheHeader />
-    <EntryEditor />
+    <EntryEditor @@create="handleCreateEvent" />
     <ul>
-      <li>
+      <li v-for="entry in entries" :key="entry.id">
         <EntryCard />
       </li>
     </ul>
