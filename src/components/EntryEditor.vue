@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import EmojiField from "./EmojiField.vue";
-import { defineComponent } from "vue";
+import { defineComponent, inject, onMounted } from "vue";
 import UseEmojis2 from "@/composables/UseEmojis2";
 import { ref, computed } from "vue";
 import type { Ref } from "vue";
 import type Emoji from "@/types/Emoji";
 import type Entry from "@/types/Entry";
+import { userInjectionKey } from "@/injectionKeys";
+
+// in child component
+const user = inject(userInjectionKey);
 
 // Defining Emits
 // https://vuejs.org/guide/typescript/composition-api.html#typing-component-emits
@@ -23,6 +27,10 @@ const body = ref("");
 const emoji: Ref<Emoji | null> = ref(null);
 const charCount = computed<number>(() => body.value.length);
 const maxChars = 280;
+
+// template refs
+const textarea = ref<HTMLTextAreaElement | null>(null);
+onMounted(() => textarea.value?.focus());
 
 const handleTextInput = (e: Event) => {
   const textarea = e.target as HTMLTextAreaElement;
@@ -55,9 +63,10 @@ export default defineComponent({
 <template>
   <form class="entry-form" @submit.prevent="handleSubmit">
     <textarea
+      ref="textarea"
       :value="body"
       @keyup="handleTextInput"
-      placeholder="New Journal Entry for danielkelly_io"
+      :placeholder="`New Journal Entry for ${user?.username || 'anonymous'} `"
     ></textarea>
     <EmojiField v-model="emoji" />
     <div class="entry-form-footer">

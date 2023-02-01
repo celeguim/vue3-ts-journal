@@ -6,7 +6,7 @@ defineEmits(["update:modelValue"]);
 </script>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, inject } from "@vue/runtime-core";
 export default defineComponent({});
 </script>
 
