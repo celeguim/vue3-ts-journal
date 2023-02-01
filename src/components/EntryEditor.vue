@@ -30,7 +30,10 @@ const maxChars = 280;
 
 // template refs
 const textarea = ref<HTMLTextAreaElement | null>(null);
-onMounted(() => textarea.value?.focus());
+onMounted(() => {
+  console.log("EntryEditor: setup onMounted()");
+  textarea.value?.focus();
+});
 
 const handleTextInput = (e: Event) => {
   const textarea = e.target as HTMLTextAreaElement;

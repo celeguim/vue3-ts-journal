@@ -1,11 +1,17 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-export default defineComponent({});
+export default defineComponent({
+  mounted() {
+    console.log("mounted()");
+    this.$http("http://myendpoint.com");
+  },
+});
 </script>
 
 <script lang="ts" setup>
 import { computed } from "@vue/reactivity";
 import formatRelative from "date-fns/formatRelative";
+import { onMounted } from "vue";
 
 const props = defineProps({
   date: {
@@ -25,6 +31,11 @@ const emit = defineEmits(["setDate"]);
 function setDate() {
   emit("setDate");
 }
+
+onMounted(() => {
+  console.log("setup onMounted()");
+  // this.$http("http://myendpoint.com");
+});
 </script>
 
 <template>
